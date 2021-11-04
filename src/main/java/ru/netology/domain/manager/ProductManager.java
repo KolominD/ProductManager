@@ -1,24 +1,27 @@
-package domain.manager;
+package ru.netology.domain.manager;
 
-import domain.products.Book;
-import repository.ProductRepository;
-import domain.products.Product;
+import ru.netology.domain.Book;
+import ru.netology.domain.Smartphone;
+import ru.netology.domain.repository.ProductRepository;
+import ru.netology.domain.Product;
 
 public class ProductManager {
     private final ProductRepository repo;
 
-    public ProductManager(ProductRepository repo){
+    public ProductManager(ProductRepository repo) {
         this.repo = repo;
     }
-    public void add(Product product){
-        repo.save (product);
+
+    public void add(Product product) {
+        repo.save(product);
     }
+
     public Product[] searchBy(String text) {
         Product[] result = new Product[0];
-        for (Product product: repo.findAll()){
+        for (Product product : repo.findAll()) {
             if (matches(product, text)) {
                 Product[] tmp = new Product[result.length + 1];
-                System.arraycopy(result,0,tmp,0,result.length);
+                System.arraycopy(result, 0, tmp, 0, result.length);
                 tmp[tmp.length - 1] = product;
                 result = tmp;
             }
@@ -37,9 +40,19 @@ public class ProductManager {
             if (book.getName().contains(search)) {
                 return true;
             }
-            return false;
         }
 
+        if (product instanceof Smartphone) {
+            Smartphone smartphone = (Smartphone) product;
+            if (smartphone.getName().contains(search)) {
+                return true;
+            }
+            if (smartphone.getManufacturer().contains(search)) {
+                return true;
+            }
+        }
         return false;
     }
+
 }
+
