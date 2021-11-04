@@ -1,4 +1,4 @@
-package ru.netology.domain.ru.netology;
+package ru.netology.domain;
 
 import ru.netology.domain.Book;
 import ru.netology.domain.Product;
