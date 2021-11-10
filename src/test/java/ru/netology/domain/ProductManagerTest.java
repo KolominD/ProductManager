@@ -8,8 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.repository.ProductRepository;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class ProductManagerTest {
@@ -31,8 +30,8 @@ class ProductManagerTest {
         manager.add(second);
         manager.add(third);
         manager.add(forth);
-        manager.add(sixth);
         manager.add(fifth);
+        manager.add(sixth);
         manager.add(seventh);
         manager.add(eighth);
     }
@@ -108,6 +107,22 @@ class ProductManagerTest {
         Product[] expected = new Product[]{};
         Product[] actual = manager.searchBy("Paustovskiy");
         assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void removeByNotExistId() {
+        assertThrows(NotFoundException.class, () -> {
+            repo.removeById(-100);
+        });
+    }
+
+    @Test
+    void removeBySecondId() {
+        repo.removeById(1);
+        Product[] expected = new Product[]{second, third, forth, fifth, sixth, seventh, eighth};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(actual, expected);
+
     }
 
 }
